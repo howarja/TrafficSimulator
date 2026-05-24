@@ -1,3 +1,10 @@
+/**
+ * Create run the traffic simulation program
+ *
+ * @author James Howard
+ * @version 21/5/25
+ */
+
 public class App {
     public static void main(String[] args) throws Exception {
         System.out.println("Hello, World!");
