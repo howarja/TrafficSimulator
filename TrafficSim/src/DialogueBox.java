@@ -1,19 +1,47 @@
-import java.awt.TextArea;
-import javax.swing.JDialog;
+/**
+ * Present a dialogue for user input
+ *
+ * @James Howard
+ * @18/3/25
+ */
 
-public class DialogueBox{
-    JDialog box;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;// listener
+public class DialogueBox extends JDialog
+{
+    String answer;
 
-    public DialogueBox(String title, String text, Window window){
-        this.box = new JDialog(window);
-        this.box.setBounds(400,400,150,70);
-        this.box.toFront();
-        this.box.setVisible(true);
-        this.box.setTitle(title);
+    public DialogueBox(String prompt){
+        super (new JFrame(prompt), prompt);
+        this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        
+        int boxWidth = prompt.length()*10;
+        this.setMinimumSize(new Dimension(boxWidth, 100));
 
-        TextArea boxInfo = new TextArea(text);
-        boxInfo.setEditable(false);
-        this.box.add(boxInfo);
+        JTextField input = new JTextField();
+        JButton confirm = new JButton();
+        confirm.setText("Confirm");
+        confirm.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e){
+                    answer = input.getText();
+                    close();
+                }
+            });
+
+        /* finilise dialog window */
+        this.setLayout(new GridLayout(2,1,5,5));
+        this.add(input);
+        this.add(confirm);
+        this.pack();
+        setModal(true);
+    }
+    
+    public void close(){
+        this.dispose();
     }
 
+    public String getResponse(){
+        return answer;
+    }
 }

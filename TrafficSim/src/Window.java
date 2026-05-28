@@ -17,8 +17,13 @@ public class Window extends JFrame implements ActionListener
     JMenuItem newRoadMenuItem;
     JMenuItem quitMenuItem;
     
-    public Window(){
+    private Input userInput;
+    private Road road;
+
+    public Window(Road road){
         System.out.println("Creating window");
+        userInput = new Input();
+        this.road = road;
         setTitle("Traffic simulator");
         this.getContentPane().setPreferredSize(new Dimension(400, 600));
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -43,9 +48,11 @@ public class Window extends JFrame implements ActionListener
     }
     
     public void actionPerformed(ActionEvent e){
-        /* quit the program */
+        /* create a new road */
         if(e.getActionCommand().equals("new road")){
-            createDialogBox("new road time", "new text");
+           int speedLimit = userInput.integerRequest(this, "Enter speed limit", 5, 100);
+           int lanes = userInput.integerRequest(this, "lanes", 1, 10);
+           road.extendRoad(speedLimit, lanes);
         }
 
         /* quit the program */
@@ -54,7 +61,20 @@ public class Window extends JFrame implements ActionListener
         }
     }
 
-    public DialogueBox createDialogBox(String title, String text){
-        return new DialogueBox(title, text, this);
+    public class Panel extends JPanel{
+        public Panel(){
+
+        }
+
+        public void setBackgroundColor(Color color){
+            setBackground(color);
+        }
+
+        public void PaintComponent(Graphics g){
+            /* Draw the graphics onto the screen */
+            super.paintComponent(g);
+            
+
+        }
     }
 }

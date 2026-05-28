@@ -1,27 +1,32 @@
+
+
 public class Road{
-    
-    private int speedLimit;
-    private int lanes;
-    private Road nextRoad;
 
-    public Road(int speedLimit, int lanes){
-        this.speedLimit = speedLimit;
-        this.lanes = lanes;
+    private RoadTile firstTile;
+    private RoadTile lastTile;
+
+
+    public Road(){
+
     }
 
-    public void setNextRoad(Road nextRoad){
-        this.nextRoad = nextRoad;
+    public void extendRoad(int speedLimit, int lanes){
+        RoadTile newTile = new RoadTile(speedLimit, lanes);
+        if(firstTile!=null){
+            lastTile.setNextRoad(newTile);
+        }else{
+            lastTile = newTile;
+            firstTile = newTile;
+        }
+
+        printRoad();
     }
 
-    public int getSpeedLimit(){
-        return this.speedLimit;
-    }
-
-    public int getLanes(){
-        return this.lanes;
-    }
-
-    public Road getNextRoad(){
-        return this.nextRoad;
+    public void printRoad(){
+        RoadTile currentTile = firstTile;
+        while(currentTile!=null){
+            System.out.println(currentTile);
+            currentTile = currentTile.getNextRoad();
+        }
     }
 }
