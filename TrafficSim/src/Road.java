@@ -29,4 +29,8 @@ public class Road{
             currentTile = currentTile.getNextRoad();
         }
     }
+
+    public RoadTile getFirsTile(){
+        return this.firstTile;
+    }
 }

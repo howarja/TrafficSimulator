@@ -19,11 +19,21 @@ public class Window extends JFrame implements ActionListener
     
     private Input userInput;
     private Road road;
+    private Panel panel;
+    private final int WIDTH = 300;
+    private final int HEIGHT = 300;
 
     public Window(Road road){
         System.out.println("Creating window");
-        userInput = new Input();
         this.road = road;
+        road.extendRoad(5,5);
+
+        panel = new Panel();
+        this.add(panel);
+        setPreferredSize(new Dimension(WIDTH,HEIGHT));
+
+        userInput = new Input();
+        
         setTitle("Traffic simulator");
         this.getContentPane().setPreferredSize(new Dimension(400, 600));
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -42,9 +52,11 @@ public class Window extends JFrame implements ActionListener
         quitMenuItem.addActionListener(this);
         menu.add(quitMenuItem);
 
+
+        this.setVisible(true);
         this.pack();
         this.toFront();
-        this.setVisible(true);
+
     }
     
     public void actionPerformed(ActionEvent e){
@@ -53,6 +65,7 @@ public class Window extends JFrame implements ActionListener
            int speedLimit = userInput.integerRequest(this, "Enter speed limit", 5, 100);
            int lanes = userInput.integerRequest(this, "lanes", 1, 10);
            road.extendRoad(speedLimit, lanes);
+           panel.repaint();
         }
 
         /* quit the program */
@@ -63,7 +76,11 @@ public class Window extends JFrame implements ActionListener
 
     public class Panel extends JPanel{
         public Panel(){
-
+            setPreferredSize(new Dimension(WIDTH, HEIGHT));
+            setBackground(Color.BLUE);
+            this.setVisible(true);
+            System.out.println("Creating panel");
+            repaint();
         }
 
         public void setBackgroundColor(Color color){
@@ -73,8 +90,21 @@ public class Window extends JFrame implements ActionListener
         public void PaintComponent(Graphics g){
             /* Draw the graphics onto the screen */
             super.paintComponent(g);
-            
+            Graphics2D g2 = (Graphics2D) g;
+            System.out.println("repaint");
 
+
+            int iteration = 0;
+            int roadWidth = 100;
+            int roadHeight = 20;
+            g2.setColor(Color.GRAY);
+            g2.drawRect(30, 30 , roadWidth, roadHeight);
+            RoadTile currentRoad = road.getFirsTile();
+            while (currentRoad!=null) {
+                g2.drawRect(roadWidth*iteration, 0 , roadWidth, roadHeight);
+                currentRoad = currentRoad.getNextRoad();
+                iteration++;
+            }
         }
     }
 }
