@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * Store the data for a single tile of the road
  *
@@ -5,11 +7,13 @@
  * @version 21/5/25
  */
 
+import java.util.ArrayList;
 public class RoadTile{
     
     private int speedLimit;
     private int lanes;
     private RoadTile nextRoad;
+    private ArrayList<Car> cars = new ArrayList<Car>();
 
     public RoadTile(int speedLimit, int lanes){
         this.speedLimit = speedLimit;
@@ -30,5 +34,26 @@ public class RoadTile{
 
     public RoadTile getNextRoad(){
         return this.nextRoad;
+    }
+
+    public void addCar(Car car){
+        cars.add(car);
+    }
+
+    public void moveCars(){
+        if (cars.size()>0) {
+            System.out.println("car exists");
+            cars.get(0).move();
+            if(nextRoad!=null&&cars.get(0).getPosition()>=50){
+                System.out.println("moving car");
+                nextRoad.addCar(cars.get(0));
+            }
+            System.out.println("removing car");
+            cars.remove(0);
+        }
+    }
+
+    public ArrayList<Car> getCars(){
+        return this.cars;
     }
 }

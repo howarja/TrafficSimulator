@@ -4,7 +4,7 @@ public class Road{
 
     private RoadTile firstTile;
     private RoadTile lastTile;
-
+    
 
     public Road(){
 
@@ -14,6 +14,7 @@ public class Road{
         RoadTile newTile = new RoadTile(speedLimit, lanes);
         if(firstTile!=null){
             lastTile.setNextRoad(newTile);
+            lastTile = newTile;
         }else{
             lastTile = newTile;
             firstTile = newTile;
@@ -21,7 +22,7 @@ public class Road{
 
         printRoad();
     }
-
+    
     public void printRoad(){
         RoadTile currentTile = firstTile;
         while(currentTile!=null){
@@ -32,5 +33,18 @@ public class Road{
 
     public RoadTile getFirsTile(){
         return this.firstTile;
+    }
+
+    public void addCar(){
+        if(this.firstTile!=null)
+            this.firstTile.addCar(new Car());
+    }
+
+    public void update(){
+        RoadTile currentTile = firstTile;
+        while(currentTile!=null){
+            currentTile.moveCars();
+            currentTile = currentTile.getNextRoad();
+        }
     }
 }

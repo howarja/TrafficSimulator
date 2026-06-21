@@ -9,6 +9,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 public class Window extends JFrame implements ActionListener
 {
@@ -23,10 +24,14 @@ public class Window extends JFrame implements ActionListener
     private final int WIDTH = 300;
     private final int HEIGHT = 300;
 
+    private final int ROADWIDTH = 200;
+    private final int ROADHEIGHT = 20;
+    private final int CARHEIGHT = 10;
+    private final int CARWIDTH = 5;
+
     public Window(Road road){
         System.out.println("Creating window");
         this.road = road;
-        road.extendRoad(5,5);
 
         panel = new Panel();
         this.add(panel);
@@ -74,6 +79,14 @@ public class Window extends JFrame implements ActionListener
         }
     }
 
+    public void addCar(){
+        road.addCar();
+    }
+
+    public void updateCars(){
+        road.update();
+    }
+
     public class Panel extends JPanel{
         public Panel(){
             setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -87,24 +100,33 @@ public class Window extends JFrame implements ActionListener
             setBackground(color);
         }
 
-        public void PaintComponent(Graphics g){
+        @Override
+        protected void paintComponent(Graphics g){
             /* Draw the graphics onto the screen */
             super.paintComponent(g);
+           // System.out.println("repaint");
             Graphics2D g2 = (Graphics2D) g;
-            System.out.println("repaint");
-
 
             int iteration = 0;
-            int roadWidth = 100;
-            int roadHeight = 20;
+    
             g2.setColor(Color.GRAY);
-            g2.drawRect(30, 30 , roadWidth, roadHeight);
             RoadTile currentRoad = road.getFirsTile();
             while (currentRoad!=null) {
-                g2.drawRect(roadWidth*iteration, 0 , roadWidth, roadHeight);
+                g2.setColor(Color.gray);
+                g2.fillRect(ROADWIDTH*iteration, 0 , ROADWIDTH, ROADHEIGHT);
+
+                g2.setColor(Color.yellow);
+                ArrayList<Car> cars =currentRoad.getCars();
+                for(Car car : cars){
+                    int pos = (int)car.getPosition();
+                    System.out.println(pos);
+                    g2.fillRect(pos+ROADWIDTH*iteration, 0 , CARWIDTH, CARHEIGHT);
+                }
+
                 currentRoad = currentRoad.getNextRoad();
                 iteration++;
             }
         }
     }
+    
 }

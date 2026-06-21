@@ -28,7 +28,7 @@ public class DialogueBox extends JDialog
                     close();
                 }
             });
-
+        
         /* finilise dialog window */
         this.setLayout(new GridLayout(2,1,5,5));
         this.add(input);

@@ -10,5 +10,6 @@ public class App {
         // System.out.println("Hello, World!");
         Road road = new Road();
         Window window = new Window(road);
+        ProgramLoop loop = new ProgramLoop(window);
     }
 }
