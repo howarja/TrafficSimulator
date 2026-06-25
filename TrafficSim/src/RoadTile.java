@@ -43,13 +43,15 @@ public class RoadTile{
     public void moveCars(){
         if (cars.size()>0) {
             System.out.println("car exists");
-            cars.get(0).move();
-            if(nextRoad!=null&&cars.get(0).getPosition()>=50){
+            cars.get(0).move(5);
+            if(cars.get(0).getPosition()>=50){
                 System.out.println("moving car");
-                nextRoad.addCar(cars.get(0));
+
+                if(nextRoad!=null)
+                    nextRoad.addCar(cars.get(0));
+                cars.remove(0);
             }
-            System.out.println("removing car");
-            cars.remove(0);
+
         }
     }
 

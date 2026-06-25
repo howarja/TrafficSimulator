@@ -1,6 +1,6 @@
 public class Car{
 
-    private double position;
+    private double position = 0;
     private double speed = 1;
 
     public Car(){
@@ -8,9 +8,9 @@ public class Car{
         this.speed = 2;
     }
 
-    public void move(){
-        this.position+=speed;
-        System.out.println(position);
+    public void move(double movement){
+        this.position+=movement;
+        //System.out.println(this.position);
     }
 
     public void resetPosition(){

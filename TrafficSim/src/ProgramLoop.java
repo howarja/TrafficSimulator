@@ -10,7 +10,7 @@ public class ProgramLoop {
     private double carSpawnTime = 10;
     private double currentCarSpawnTime;
 
-    private double updateTime = 1;
+    private double carUpdateTime = 0.3;
     private double currentUpdateTime;
 
     public ProgramLoop(Window window) {
@@ -56,7 +56,7 @@ public class ProgramLoop {
             currentUpdateTime-=(double)(updateTime)/100;
             if(currentUpdateTime<=0){
                 window.updateCars();
-                currentUpdateTime = updateTime;
+                currentUpdateTime = carUpdateTime;
             }
 
             /*-------------WAIT TIME----------- */

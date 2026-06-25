@@ -119,7 +119,7 @@ public class Window extends JFrame implements ActionListener
                 ArrayList<Car> cars =currentRoad.getCars();
                 for(Car car : cars){
                     int pos = (int)car.getPosition();
-                    System.out.println(pos);
+                   // System.out.println(pos);
                     g2.fillRect(pos+ROADWIDTH*iteration, 0 , CARWIDTH, CARHEIGHT);
                 }
 
