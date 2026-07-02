@@ -12,12 +12,14 @@ public class RoadTile{
     
     private int speedLimit;
     private int lanes;
+    private int roadLength;
     private RoadTile nextRoad;
     private ArrayList<Car> cars = new ArrayList<Car>();
 
-    public RoadTile(int speedLimit, int lanes){
+    public RoadTile(int speedLimit, int lanes, int length){
         this.speedLimit = speedLimit;
         this.lanes = lanes;
+        this.roadLength = length;
     }
 
     public void setNextRoad(RoadTile nextRoad){
@@ -32,26 +34,27 @@ public class RoadTile{
         return this.lanes;
     }
 
+    public int getLength(){
+        return this.roadLength;
+    }
+
     public RoadTile getNextRoad(){
         return this.nextRoad;
     }
 
     public void addCar(Car car){
         cars.add(car);
+        car.resetPosition();
     }
 
     public void moveCars(){
         if (cars.size()>0) {
-            System.out.println("car exists");
-            cars.get(0).move(5);
-            if(cars.get(0).getPosition()>=50){
-                System.out.println("moving car");
-
+            cars.get(0).move(speedLimit);
+            if(cars.get(0).getPosition()>=roadLength){
                 if(nextRoad!=null)
                     nextRoad.addCar(cars.get(0));
                 cars.remove(0);
             }
-
         }
     }
 

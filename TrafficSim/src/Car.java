@@ -1,16 +1,22 @@
 public class Car{
 
     private double position = 0;
-    private double speed = 1;
+    private double accel = 0;
+    private double deccel = 0;
+    private double vel = 0;
 
     public Car(){
         this.position = 0;
-        this.speed = 2;
+        this.accel = 1*0.2;
+        this.deccel = 5;
     }
 
-    public void move(double movement){
-        this.position+=movement;
-        //System.out.println(this.position);
+    public void move(double target){
+        if(target>vel)
+            this.vel = Math.min(target, this.vel + this.accel); 
+        else if(target<vel)
+            this.vel = Math.max(target, this.vel - this.deccel); 
+        this.position+=vel;
     }
 
     public void resetPosition(){

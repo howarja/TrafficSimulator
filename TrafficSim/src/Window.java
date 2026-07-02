@@ -68,8 +68,9 @@ public class Window extends JFrame implements ActionListener
         /* create a new road */
         if(e.getActionCommand().equals("new road")){
            int speedLimit = userInput.integerRequest(this, "Enter speed limit", 5, 100);
-           int lanes = userInput.integerRequest(this, "lanes", 1, 10);
-           road.extendRoad(speedLimit, lanes);
+           int lanes = userInput.integerRequest(this, "pick lanes", 1, 10);
+           int length = userInput.integerRequest(this, "pick length", 10, 500);
+           road.extendRoad(speedLimit, lanes, length);
            panel.repaint();
         }
 
@@ -92,7 +93,6 @@ public class Window extends JFrame implements ActionListener
             setPreferredSize(new Dimension(WIDTH, HEIGHT));
             setBackground(Color.BLUE);
             this.setVisible(true);
-            System.out.println("Creating panel");
             repaint();
         }
 
@@ -104,27 +104,25 @@ public class Window extends JFrame implements ActionListener
         protected void paintComponent(Graphics g){
             /* Draw the graphics onto the screen */
             super.paintComponent(g);
-           // System.out.println("repaint");
             Graphics2D g2 = (Graphics2D) g;
 
-            int iteration = 0;
-    
             g2.setColor(Color.GRAY);
             RoadTile currentRoad = road.getFirsTile();
+            int totalLength = 0;
             while (currentRoad!=null) {
                 g2.setColor(Color.gray);
-                g2.fillRect(ROADWIDTH*iteration, 0 , ROADWIDTH, ROADHEIGHT);
+                int width = currentRoad.getLength();
+                g2.fillRect(totalLength, 0 , width, ROADHEIGHT);
 
                 g2.setColor(Color.yellow);
                 ArrayList<Car> cars =currentRoad.getCars();
                 for(Car car : cars){
                     int pos = (int)car.getPosition();
-                   // System.out.println(pos);
-                    g2.fillRect(pos+ROADWIDTH*iteration, 0 , CARWIDTH, CARHEIGHT);
+                    g2.fillRect(pos+totalLength, 0 , CARWIDTH, CARHEIGHT);
                 }
-
+                
                 currentRoad = currentRoad.getNextRoad();
-                iteration++;
+                totalLength += width;
             }
         }
     }

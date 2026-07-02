@@ -10,8 +10,8 @@ public class Road{
 
     }
 
-    public void extendRoad(int speedLimit, int lanes){
-        RoadTile newTile = new RoadTile(speedLimit, lanes);
+    public void extendRoad(int speedLimit, int lanes, int length){
+        RoadTile newTile = new RoadTile(speedLimit, lanes, length);
         if(firstTile!=null){
             lastTile.setNextRoad(newTile);
             lastTile = newTile;
