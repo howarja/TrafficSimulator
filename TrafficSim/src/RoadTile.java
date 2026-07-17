@@ -43,6 +43,7 @@ public class RoadTile {
     }
 
     public void addCar(Car car) {
+        /* Find the lane with the fewest car and add one to it */
         int index = 0;
         int currentMin = cars.get(index).size();
         for (int i = 1; i < cars.size(); i++) {
@@ -59,6 +60,10 @@ public class RoadTile {
     }
 
     public void moveCars() {
+        /* loop through each lane and each car in the lane, 
+            move the car along the road, 
+            if it reaches then move it to the next road
+            if there is no further road then remove it */
         for (ArrayList<Car> lane : cars) {
             for (int i = 0; i < lane.size(); i++) {
                 double nextCarPos = 10000;

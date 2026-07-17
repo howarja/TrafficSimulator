@@ -12,6 +12,7 @@ public class DialogueBox extends JDialog
 {
     String answer;
 
+    /* Create a small window with a text field the user to type in their input and a confirm button */
     public DialogueBox(String prompt){
         super (new JFrame(prompt), prompt);
         this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);

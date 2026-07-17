@@ -26,6 +26,8 @@ public class Window extends JFrame implements ActionListener {
     private final int CARHEIGHT = 10;
     private final int CARWIDTH = 5;
 
+    private final Font font;
+
     public Window(Road road) {
         System.out.println("Creating window");
         this.road = road;
@@ -58,6 +60,8 @@ public class Window extends JFrame implements ActionListener {
         this.pack();
         this.toFront();
 
+        /* Setup larger font */
+        font = new Font("serif", Font.BOLD, 40);
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -101,17 +105,25 @@ public class Window extends JFrame implements ActionListener {
             /* Draw the graphics onto the screen */
             super.paintComponent(g);
             Graphics2D g2 = (Graphics2D) g;
-
+            
+            /* Loop through the road tiles, draw road and each car on it */
             g2.setColor(Color.GRAY);
             RoadTile currentRoad = road.getFirsTile();
             int totalLength = 0;
             while (currentRoad != null) {
+                /* Draw the road */
                 g2.setColor(Color.gray);
                 int width = currentRoad.getLength();
                 int height = CARHEIGHT*currentRoad.getLanes();
                 int y = WINDOWHEIGHT/2 - height/2;
                 g2.fillRect(totalLength, y,width, /*ROADHEIGHT +*/ height);
+                
+                /* Draw the speed limit */
+                g2.setFont(font);
+                g2.setColor(Color.red);
+                g2.drawString(String.valueOf(currentRoad.getSpeedLimit()), totalLength+currentRoad.getLength()/2, y-30);
 
+                /* draw the cars */
                 g2.setColor(Color.yellow);
                 ArrayList<ArrayList<Car>> cars = currentRoad.getCars();
                 int laneIndex = 0;
