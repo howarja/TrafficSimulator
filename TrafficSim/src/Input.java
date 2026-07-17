@@ -9,18 +9,18 @@
  * @version 2/4/26
  */
 
-import java.util.Scanner;
 public class Input
 {
-
+    /**
+     *  Creatte a dialogue box, asking for a user input, return the result 
+    */
      public String createDialogBox(Window window, String prompt){
-        /* Creatte a dialogue box, asking for a user input, return the result */
+      
         DialogueBox box = new DialogueBox(prompt);
         box.setLocationRelativeTo(window);
         box.setVisible(true);
         return box.getResponse();
     }
-
 
     /** 
      *    Request a string from the user
@@ -61,7 +61,7 @@ public class Input
             validInput = false;
             System.out.println("Invalid input - Input exclusively numerical answer ");
         }
-
+        
         /* Repeat request if input is invalid */
         if(!validInput){
             return doubleRequest(window,prompt, min, max);

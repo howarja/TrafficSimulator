@@ -7,7 +7,6 @@
 
 public class App {
     public static void main(String[] args) throws Exception {
-        // System.out.println("Hello, World!");
         Road road = new Road();
         Window window = new Window(road);
         ProgramLoop loop = new ProgramLoop(window);

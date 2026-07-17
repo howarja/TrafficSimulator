@@ -11,97 +11,93 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
-public class Window extends JFrame implements ActionListener
-{
+public class Window extends JFrame implements ActionListener {
     JMenuBar bar;
     JMenu menu;
     JMenuItem newRoadMenuItem;
     JMenuItem quitMenuItem;
-    
+
     private Input userInput;
     private Road road;
     private Panel panel;
-    private final int WIDTH = 300;
-    private final int HEIGHT = 300;
+    private final int WINDOWWIDTH = 900;
+    private final int WINDOWHEIGHT = 900;
 
-    private final int ROADWIDTH = 200;
-    private final int ROADHEIGHT = 20;
     private final int CARHEIGHT = 10;
     private final int CARWIDTH = 5;
 
-    public Window(Road road){
+    public Window(Road road) {
         System.out.println("Creating window");
         this.road = road;
 
         panel = new Panel();
         this.add(panel);
-        setPreferredSize(new Dimension(WIDTH,HEIGHT));
+        setPreferredSize(new Dimension(WINDOWWIDTH, WINDOWHEIGHT));
 
         userInput = new Input();
-        
+
         setTitle("Traffic simulator");
-        this.getContentPane().setPreferredSize(new Dimension(400, 600));
+        this.getContentPane().setPreferredSize(new Dimension(WINDOWWIDTH, WINDOWHEIGHT));
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        
+
         bar = new JMenuBar();
         this.setJMenuBar(bar);
-        
+
         menu = new JMenu("Menu");
         bar.add(menu);
 
         newRoadMenuItem = new JMenuItem("new road");
-        newRoadMenuItem.addActionListener(this);    
+        newRoadMenuItem.addActionListener(this);
         menu.add(newRoadMenuItem);
 
         quitMenuItem = new JMenuItem("quit");
         quitMenuItem.addActionListener(this);
         menu.add(quitMenuItem);
 
-
         this.setVisible(true);
         this.pack();
         this.toFront();
 
     }
-    
-    public void actionPerformed(ActionEvent e){
+
+    public void actionPerformed(ActionEvent e) {
         /* create a new road */
-        if(e.getActionCommand().equals("new road")){
-           int speedLimit = userInput.integerRequest(this, "Enter speed limit", 5, 100);
-           int lanes = userInput.integerRequest(this, "pick lanes", 1, 10);
-           int length = userInput.integerRequest(this, "pick length", 10, 500);
-           road.extendRoad(speedLimit, lanes, length);
-           panel.repaint();
+        if (e.getActionCommand().equals("new road")) {
+            int speedLimit = userInput.integerRequest(this, "Enter speed limit", 5, 100);
+            int lanes = userInput.integerRequest(this, "pick lanes", 1, 10);
+            int length = userInput.integerRequest(this, "pick length", 10, 500);
+            road.extendRoad(speedLimit, lanes, length);
+            panel.repaint();
         }
 
         /* quit the program */
-        if(e.getActionCommand().equals("quit")){
+        if (e.getActionCommand().equals("quit")) {
             System.exit(0);
         }
     }
 
-    public void addCar(){
+    public void addCar() {
         road.addCar();
     }
 
-    public void updateCars(){
+    public void updateCars() {
         road.update();
     }
 
-    public class Panel extends JPanel{
-        public Panel(){
+    public class Panel extends JPanel {
+        public Panel() {
             setPreferredSize(new Dimension(WIDTH, HEIGHT));
             setBackground(Color.BLUE);
             this.setVisible(true);
             repaint();
         }
 
-        public void setBackgroundColor(Color color){
+        public void setBackgroundColor(Color color) {
             setBackground(color);
         }
 
         @Override
-        protected void paintComponent(Graphics g){
+        protected void paintComponent(Graphics g) {
             /* Draw the graphics onto the screen */
             super.paintComponent(g);
             Graphics2D g2 = (Graphics2D) g;
@@ -109,22 +105,26 @@ public class Window extends JFrame implements ActionListener
             g2.setColor(Color.GRAY);
             RoadTile currentRoad = road.getFirsTile();
             int totalLength = 0;
-            while (currentRoad!=null) {
+            while (currentRoad != null) {
                 g2.setColor(Color.gray);
                 int width = currentRoad.getLength();
-                g2.fillRect(totalLength, 0 , width, ROADHEIGHT);
+                int height = CARHEIGHT*currentRoad.getLanes();
+                int y = WINDOWHEIGHT/2 - height/2;
+                g2.fillRect(totalLength, y,width, /*ROADHEIGHT +*/ height);
 
                 g2.setColor(Color.yellow);
-                ArrayList<Car> cars =currentRoad.getCars();
-                for(Car car : cars){
-                    int pos = (int)car.getPosition();
-                    g2.fillRect(pos+totalLength, 0 , CARWIDTH, CARHEIGHT);
+                ArrayList<ArrayList<Car>> cars = currentRoad.getCars();
+                int laneIndex = 0;
+                for (ArrayList<Car> lane : cars) {
+                    for (Car car : lane) {
+                        int pos = (int) car.getPosition();
+                        g2.fillRect(pos + totalLength, y+(laneIndex*CARHEIGHT), CARWIDTH, CARHEIGHT);
+                    }
+                    laneIndex++;
                 }
-                
                 currentRoad = currentRoad.getNextRoad();
                 totalLength += width;
             }
         }
     }
-    
 }
