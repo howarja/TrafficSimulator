@@ -10,6 +10,11 @@ public class Road{
 
     }
 
+    public void resetRoad(){
+        firstTile = null;
+        lastTile = null;
+    }
+
     public void extendRoad(int speedLimit, int lanes, int length){
         /* Add a new tile to the road with given parameters */
         RoadTile newTile = new RoadTile(speedLimit, lanes, length);

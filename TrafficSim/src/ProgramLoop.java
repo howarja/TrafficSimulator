@@ -7,7 +7,7 @@ public class ProgramLoop {
     public static long time;
 
     private boolean running;
-    private double carSpawnTime = 10;
+    private static double carSpawnTime = 10;
     private double currentCarSpawnTime;
 
     private double carUpdateTime = 0.3;
@@ -66,5 +66,9 @@ public class ProgramLoop {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static void setCarSpawnTime(double newSpawnTime){
+        carSpawnTime = newSpawnTime;
     }
 }

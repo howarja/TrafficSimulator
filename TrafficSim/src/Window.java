@@ -12,19 +12,23 @@ import java.awt.event.*;
 import java.util.ArrayList;
 
 public class Window extends JFrame implements ActionListener {
-    JMenuBar bar;
-    JMenu menu;
+    JMenuBar programBar;
+    JMenu programMenu;
+    JMenu simulationMenu;
     JMenuItem newRoadMenuItem;
+    JMenuItem carSpawnMenuItem;
+    JMenuItem carSpacingDistanceMenuItem;
+    JMenuItem resetMenuItem;
     JMenuItem quitMenuItem;
 
     private Input userInput;
     private Road road;
     private Panel panel;
-    private final int WINDOWWIDTH = 900;
+    private final int WINDOWWIDTH = 1400;
     private final int WINDOWHEIGHT = 900;
 
     private final int CARHEIGHT = 10;
-    private final int CARWIDTH = 5;
+    private final int CARWIDTH = 20;
 
     private final Font font;
 
@@ -42,19 +46,34 @@ public class Window extends JFrame implements ActionListener {
         this.getContentPane().setPreferredSize(new Dimension(WINDOWWIDTH, WINDOWHEIGHT));
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        bar = new JMenuBar();
-        this.setJMenuBar(bar);
+        programBar = new JMenuBar();
+        this.setJMenuBar(programBar);
 
-        menu = new JMenu("Menu");
-        bar.add(menu);
+        programMenu = new JMenu("Program");
+        programBar.add(programMenu);
+
+        simulationMenu = new JMenu("Simulation");
+        programMenu.add(simulationMenu);
 
         newRoadMenuItem = new JMenuItem("new road");
         newRoadMenuItem.addActionListener(this);
-        menu.add(newRoadMenuItem);
+        programMenu.add(newRoadMenuItem);
+
+        carSpawnMenuItem = new JMenuItem("car frequency");
+        carSpawnMenuItem.addActionListener(this);
+        simulationMenu.add(carSpawnMenuItem);
+
+        carSpacingDistanceMenuItem = new JMenuItem("car spacing");
+        carSpacingDistanceMenuItem.addActionListener(this);
+        simulationMenu.add(carSpacingDistanceMenuItem);
+
+        resetMenuItem = new JMenuItem("reset road");
+        resetMenuItem.addActionListener(this);
+        programMenu.add(resetMenuItem);
 
         quitMenuItem = new JMenuItem("quit");
         quitMenuItem.addActionListener(this);
-        menu.add(quitMenuItem);
+        programMenu.add(quitMenuItem);
 
         this.setVisible(true);
         this.pack();
@@ -65,12 +84,32 @@ public class Window extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        /* create a new road */
+        /* create a new road tile */
         if (e.getActionCommand().equals("new road")) {
             int speedLimit = userInput.integerRequest(this, "Enter speed limit", 5, 100);
             int lanes = userInput.integerRequest(this, "pick lanes", 1, 4);
             int length = userInput.integerRequest(this, "pick length", 100, 500);
             road.extendRoad(speedLimit, lanes, length);
+            panel.repaint();
+        }
+
+        /* set car spawn time */
+        if (e.getActionCommand().equals("car frequency")) {
+            int period = userInput.integerRequest(this, "Enter new period between spawns", 1, 30);
+            ProgramLoop.setCarSpawnTime(period);
+            panel.repaint();
+        }
+
+        /* set car spacing */
+        if (e.getActionCommand().equals("car spacing")) {
+            int spacing = userInput.integerRequest(this, "Enter new spacing distance", 15, 70);
+            Car.setStoppingDistance(spacing);
+            panel.repaint();
+        }       
+        
+        /* reset road program */
+        if (e.getActionCommand().equals("reset road")) {
+            road.resetRoad();
             panel.repaint();
         }
 
@@ -95,7 +134,7 @@ public class Window extends JFrame implements ActionListener {
     public class Panel extends JPanel {
         public Panel() {
             setPreferredSize(new Dimension(WIDTH, HEIGHT));
-            setBackground(Color.BLUE);
+            setBackground(Color.BLACK);
             this.setVisible(true);
             repaint();
         }

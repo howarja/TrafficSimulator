@@ -5,7 +5,7 @@ public class Car{
     private double deccel = 0;
     private double vel = 0;
     private boolean crashed;
-    public static final double carSpacingDist = 55;
+    public static double carSpacingDist = 55;
 
     public Car(){
         this.position = 0;
@@ -39,5 +39,9 @@ public class Car{
 
     public double getPosition(){
         return this.position;
+    }
+
+    public static void setStoppingDistance(double newStoppingDistance){
+        carSpacingDist = newStoppingDistance;
     }
 }
