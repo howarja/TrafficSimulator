@@ -43,19 +43,19 @@ public class ProgramLoop {
             elapsedTime = System.nanoTime() - previousTime;// time taken for the frame
             updateTime = (TARGET_NS_PER_FRAME - elapsedTime) / 1000000;// remaining time untill next frame(in
                                                                        // microseconds for Thread.sleep)
-                
+            double totalTime = (double)(updateTime)/100;
             // spawn cars
-            currentCarSpawnTime-=(double)(updateTime)/100;
-            //System.out.println(currentCarSpawnTime);
+            currentCarSpawnTime-=totalTime;
             if(currentCarSpawnTime<=0){
                 window.addCar();
                 currentCarSpawnTime = carSpawnTime;
             }
 
             // update cars
-            currentUpdateTime-=(double)(updateTime)/100;
+            currentUpdateTime-=totalTime;
             if(currentUpdateTime<=0){
                 window.updateCars();
+                window.updateRoadLights(totalTime);
                 currentUpdateTime = carUpdateTime;
             }
 

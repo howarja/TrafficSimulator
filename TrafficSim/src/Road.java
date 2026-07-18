@@ -43,11 +43,20 @@ public class Road{
             this.firstTile.addCar(new Car());
     }
 
-    public void update(){
+    public void updateCars(){
         /* Move the cars on every tile of the road */
         RoadTile currentTile = firstTile;
         while(currentTile!=null){
             currentTile.moveCars();
+            currentTile = currentTile.getNextRoad();
+        }
+    }
+
+    public void updateRoadTileLights(double totalTime){
+                /* Move the cars on every tile of the road */
+        RoadTile currentTile = firstTile;
+        while(currentTile!=null){
+            currentTile.updateLights(totalTime);
             currentTile = currentTile.getNextRoad();
         }
     }

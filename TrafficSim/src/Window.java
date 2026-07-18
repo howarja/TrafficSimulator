@@ -68,8 +68,8 @@ public class Window extends JFrame implements ActionListener {
         /* create a new road */
         if (e.getActionCommand().equals("new road")) {
             int speedLimit = userInput.integerRequest(this, "Enter speed limit", 5, 100);
-            int lanes = userInput.integerRequest(this, "pick lanes", 1, 10);
-            int length = userInput.integerRequest(this, "pick length", 10, 500);
+            int lanes = userInput.integerRequest(this, "pick lanes", 1, 4);
+            int length = userInput.integerRequest(this, "pick length", 100, 500);
             road.extendRoad(speedLimit, lanes, length);
             panel.repaint();
         }
@@ -85,7 +85,11 @@ public class Window extends JFrame implements ActionListener {
     }
 
     public void updateCars() {
-        road.update();
+        road.updateCars();
+    }
+
+    public void updateRoadLights(double totalTime){
+        road.updateRoadTileLights(totalTime);
     }
 
     public class Panel extends JPanel {
@@ -122,6 +126,14 @@ public class Window extends JFrame implements ActionListener {
                 g2.setFont(font);
                 g2.setColor(Color.red);
                 g2.drawString(String.valueOf(currentRoad.getSpeedLimit()), totalLength+currentRoad.getLength()/2, y-30);
+
+                /* draw the lights */
+                if(currentRoad.canGo())
+                    g2.setColor(Color.green);
+                else
+                    g2.setColor(Color.red);
+                int circlSize = 35;
+                g2.fillOval(totalLength+width-circlSize/2, y-30-circlSize/2, circlSize, circlSize);
 
                 /* draw the cars */
                 g2.setColor(Color.yellow);

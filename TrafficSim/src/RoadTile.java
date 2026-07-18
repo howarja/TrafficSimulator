@@ -14,6 +14,11 @@ public class RoadTile {
     private RoadTile nextRoad;
     private ArrayList<ArrayList<Car>> cars = new ArrayList<ArrayList<Car>>();
 
+    private final double stopDuration = 8;
+    private final double goDuration = 4;
+    private boolean canGo = false;
+    private double currentDuration;
+
     public RoadTile(int speedLimit, int lanes, int length) {
         this.speedLimit = speedLimit;
         this.lanes = lanes;
@@ -60,25 +65,47 @@ public class RoadTile {
     }
 
     public void moveCars() {
-        /* loop through each lane and each car in the lane, 
-            move the car along the road, 
-            if it reaches then move it to the next road
-            if there is no further road then remove it */
+        /*
+         * loop through each lane and each car in the lane,
+         * move the car along the road,
+         * if it reaches then move it to the next road
+         * if there is no further road then remove it
+         */
         for (ArrayList<Car> lane : cars) {
             for (int i = 0; i < lane.size(); i++) {
                 double nextCarPos = 10000;
-                if (i > 1)
+                if (i >= 1) {
                     nextCarPos = lane.get(i - 1).getPosition();
+                } else if (!canGo) {
+                    nextCarPos = roadLength;
+                }
 
                 lane.get(i).move(speedLimit, nextCarPos);
                 if (lane.get(i).getPosition() >= roadLength) {
                     if (nextRoad != null)
                         nextRoad.addCar(lane.get(i));
+                    if (!canGo)
+                        System.out.println("Ran red light");
                     lane.remove(i);
                     i--;
                 }
             }
         }
+    }
+
+    public void updateLights(double totalTime) {
+        currentDuration -= totalTime;
+        if (currentDuration <= 0) {
+            canGo = !canGo;
+            if (canGo)
+                currentDuration = goDuration;
+            else
+                currentDuration = stopDuration;
+        }
+    }
+
+    public boolean canGo() {
+        return this.canGo;
     }
 
     public ArrayList<ArrayList<Car>> getCars() {
