@@ -6,9 +6,12 @@
  * @version 21/5/25
  */
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 
 public class Window extends JFrame implements ActionListener {
@@ -21,6 +24,9 @@ public class Window extends JFrame implements ActionListener {
     JMenuItem resetMenuItem;
     JMenuItem quitMenuItem;
 
+    private BufferedImage carImage;
+    private final String carPath = "car.png";
+
     private Input userInput;
     private Road road;
     private Panel panel;
@@ -29,6 +35,8 @@ public class Window extends JFrame implements ActionListener {
 
     private final int CARHEIGHT = 10;
     private final int CARWIDTH = 20;
+
+    private final int ROADHEIGHT = 60;
 
     private final Font font;
 
@@ -81,6 +89,13 @@ public class Window extends JFrame implements ActionListener {
 
         /* Setup larger font */
         font = new Font("serif", Font.BOLD, 40);
+
+        /* setup images */
+        try {   
+            carImage = ImageIO.read(new File(carPath));
+        } catch (Exception e) {
+            System.out.println("null image");
+        }
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -157,9 +172,14 @@ public class Window extends JFrame implements ActionListener {
                 /* Draw the road */
                 g2.setColor(Color.gray);
                 int width = currentRoad.getLength();
-                int height = CARHEIGHT*currentRoad.getLanes();
+                int height = ROADHEIGHT*currentRoad.getLanes();
                 int y = WINDOWHEIGHT/2 - height/2;
                 g2.fillRect(totalLength, y,width, /*ROADHEIGHT +*/ height);
+                
+                /* Draw the lines between the lanes */
+                for(int i = 0; i < currentRoad.getLanes()+1; i++){
+                    g2.drawLine(totalLength, y+i*ROADHEIGHT, totalLength+currentRoad.getLength(), y+i*ROADHEIGHT);
+                }
                 
                 /* Draw the speed limit */
                 g2.setFont(font);
@@ -181,7 +201,7 @@ public class Window extends JFrame implements ActionListener {
                 for (ArrayList<Car> lane : cars) {
                     for (Car car : lane) {
                         int pos = (int) car.getPosition();
-                        g2.fillRect(pos + totalLength, y+(laneIndex*CARHEIGHT), CARWIDTH, CARHEIGHT);
+                        g2.drawImage(carImage, pos + totalLength, y+(laneIndex*ROADHEIGHT), CARWIDTH, CARHEIGHT,null);
                     }
                     laneIndex++;
                 }
