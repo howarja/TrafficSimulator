@@ -110,7 +110,7 @@ public class Window extends JFrame implements ActionListener {
 
         /* set car spawn time */
         if (e.getActionCommand().equals("car frequency")) {
-            int period = userInput.integerRequest(this, "Enter new period between spawns", 1, 30);
+            int period = userInput.integerRequest(this, "Enter new period between spawns", 10, 40);
             ProgramLoop.setCarSpawnTime(period);
             panel.repaint();
         }
@@ -164,6 +164,12 @@ public class Window extends JFrame implements ActionListener {
             super.paintComponent(g);
             Graphics2D g2 = (Graphics2D) g;
             
+            /* Draw crashes */
+            g2.setFont(font);
+            g2.setColor(Color.white);
+            g2.drawString("Crashes: " + Road.carCrashes, 50, 50);
+            g2.drawString("Red lights ran: " + Road.redLightsRan, 50, 90);
+
             /* Loop through the road tiles, draw road and each car on it */
             g2.setColor(Color.GRAY);
             RoadTile currentRoad = road.getFirsTile();
@@ -182,8 +188,6 @@ public class Window extends JFrame implements ActionListener {
                 }
                 
                 /* Draw the speed limit */
-                g2.setFont(font);
-                g2.setColor(Color.red);
                 g2.drawString(String.valueOf(currentRoad.getSpeedLimit()), totalLength+currentRoad.getLength()/2, y-30);
 
                 /* draw the lights */

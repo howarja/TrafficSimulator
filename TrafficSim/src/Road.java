@@ -5,6 +5,8 @@ public class Road{
     private RoadTile firstTile;
     private RoadTile lastTile;
     
+    public static int carCrashes = 0;
+    public static int redLightsRan = 0;
 
     public Road(){
 
@@ -58,7 +60,7 @@ public class Road{
     }
 
     public void updateRoadTileLights(double totalTime){
-                /* Move the cars on every tile of the road */
+        /* Move the cars on every tile of the road */
         RoadTile currentTile = firstTile;
         while(currentTile!=null){
             currentTile.updateLights(totalTime);

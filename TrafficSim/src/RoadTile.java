@@ -76,16 +76,16 @@ public class RoadTile {
                 double nextCarPos = 10000;
                 if (i >= 1) {
                     nextCarPos = lane.get(i - 1).getPosition();
-                } else if (!canGo) {
-                    nextCarPos = roadLength;
                 }
 
-                lane.get(i).move(speedLimit, nextCarPos);
+                lane.get(i).move(speedLimit, nextCarPos, canGo, roadLength);
                 if (lane.get(i).getPosition() >= roadLength) {
                     if (nextRoad != null)
                         nextRoad.addCar(lane.get(i));
-                    if (!canGo)
-                        System.out.println("Ran red light");
+                    if (!canGo){
+                        System.out.println("Ran red light " + Road.redLightsRan);
+                        Road.redLightsRan++;
+                    }
                     lane.remove(i);
                     i--;
                 }
