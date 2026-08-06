@@ -80,7 +80,6 @@ public class RoadTile {
             lastRoad = false;
         }
         
-        System.out.println(canGo);
         for (ArrayList<Car> lane : cars) {
             for (int i = 0; i < lane.size(); i++) {
                 boolean frontCar = true;
@@ -96,7 +95,6 @@ public class RoadTile {
                     mustBrake = true;
                     if(frontCar && canGo){
                         if(lastRoad||carsAtLight<maxCarsAtLight){
-                            System.out.println("gooo");
                             mustBrake = false;
                             carsAtLight++;
                         }
@@ -104,14 +102,13 @@ public class RoadTile {
                 }
                 lane.get(i).move(speedLimit, canGo, mustBrake);
 
-                if(nextRoad !=null) 
+                if(nextRoad !=null)
                     maxCarsAtLight = nextRoad.getLanes();
 
                 if (lane.get(i).getPosition() >= roadLength) {
                     if (nextRoad != null)
                         nextRoad.addCar(lane.get(i));
                     if (!canGo){
-                        System.out.println("Ran red light " + Road.redLightsRan);
                         Road.redLightsRan++;
                     }
                     lane.remove(i);

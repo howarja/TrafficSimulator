@@ -32,6 +32,7 @@ public class Window extends JFrame implements ActionListener {
     private Panel panel;
     private final int WINDOWWIDTH = 1400;
     private final int WINDOWHEIGHT = 900;
+    private final int TOTAL_MAX_ROAD_LENGTH = 1200;
 
     private final int CARHEIGHT = 10;
     private final int CARWIDTH = 20;
@@ -43,7 +44,7 @@ public class Window extends JFrame implements ActionListener {
     private final int CAR_FREQUENCY_MIN=1;
     private final int CAR_FREQUENCY_MAX=5;
 
-    private final int CAR_SPACING_MIN = 20;
+    private final int CAR_SPACING_MIN = 5;
     private final int CAR_SPACING_MAX = 75;
 
     private final int ROAD_LENGTH_MIN=50;
@@ -55,9 +56,9 @@ public class Window extends JFrame implements ActionListener {
     private final int SPEED_LIMIT_MIN=5;
     private final int SPEED_LIMIT_MAX=100;
 
-    public static final String timeUnit = "(seconds)";
-    public static final String speedUnit = "(m/s)";
-    public static final String lengthUnit = "(meters)";
+    public static final String TIME_UNIT = "(seconds)";
+    public static final String SPEED_UNIT = "(m/s)";
+    public static final String LENGTH_UNIT = "(meters)";
 
     public Window(Road road) {
         System.out.println("Creating window");
@@ -120,23 +121,36 @@ public class Window extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         /* create a new road tile */
         if (e.getActionCommand().equals("new road")) {
-            int speedLimit = userInput.integerRequest(this, "Enter speed limit", SPEED_LIMIT_MIN, SPEED_LIMIT_MAX);
+            int currentRoadLength = 0;
+            RoadTile currentRoadTile = road.getFirsTile();
+            while (currentRoadTile!=null) {
+                currentRoadLength+=currentRoadTile.getLength();
+                currentRoadTile = currentRoadTile.getNextRoad();
+            }
+            if(currentRoadLength>=TOTAL_MAX_ROAD_LENGTH-ROAD_LENGTH_MIN)
+                return;
+
+            int maxLength = Math.min(TOTAL_MAX_ROAD_LENGTH-currentRoadLength, ROAD_LENTH_MAX);
+
+            int speedLimit = userInput.integerRequest(this, "Enter speed limit"+SPEED_UNIT, SPEED_LIMIT_MIN, SPEED_LIMIT_MAX);
             int lanes = userInput.integerRequest(this, "pick lanes", LANES_MIN, LANES_MAX);
-            int length = userInput.integerRequest(this, "pick length", ROAD_LENGTH_MIN, ROAD_LENTH_MAX);
+            
+            
+            int length = userInput.integerRequest(this, "pick length"+LENGTH_UNIT, ROAD_LENGTH_MIN, maxLength);
             road.extendRoad(speedLimit, lanes, length);
             panel.repaint();
         }
 
         /* set car spawn time */
         if (e.getActionCommand().equals("car frequency")) {
-            int period = userInput.integerRequest(this, "Enter new period between spawns", CAR_FREQUENCY_MIN, CAR_FREQUENCY_MAX);
+            int period = userInput.integerRequest(this, "Enter new period between spawns"+TIME_UNIT, CAR_FREQUENCY_MIN, CAR_FREQUENCY_MAX);
             ProgramLoop.setCarSpawnTime(period);
             panel.repaint();
         }
 
         /* set car spacing */
         if (e.getActionCommand().equals("car spacing")) {
-            int spacing = userInput.integerRequest(this, "Enter new spacing distance", CAR_SPACING_MIN, CAR_SPACING_MAX);
+            int spacing = userInput.integerRequest(this, "Enter new spacing distance"+LENGTH_UNIT, CAR_SPACING_MIN, CAR_SPACING_MAX);
             Car.setStoppingDistance(spacing);
             panel.repaint();
         }
