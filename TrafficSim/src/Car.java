@@ -4,14 +4,12 @@ public class Car{
     private double accel = 0;
     private double deccel = 0;
     private double vel = 0;
-    private boolean crashed;
     public static double carSpacingDist = 55;
 
     public Car(){
         this.position = 0;
         this.accel = 1*0.2;
         this.deccel = 1;
-        this.crashed = false;
     }
 
     /** Increase/decrease velocity toward the target speed
@@ -23,11 +21,7 @@ public class Car{
         @param canGo wether the stop lights are active
         @param roadLength the length of the full roadTile that this car is on
     */
-    public void move(double targetSpeed, boolean canGo, boolean brake){ /* double carAheadPosition, , boolean canGo, double roadLength */
-        /* Don't move if this car has collided with another */
-        if(crashed)
-            return;
-       
+    public void move(double targetSpeed, boolean canGo, boolean brake){
         if(brake){
             this.vel = Math.max(0, this.vel - this.deccel); 
         }

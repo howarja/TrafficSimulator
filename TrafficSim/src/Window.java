@@ -31,11 +31,11 @@ public class Window extends JFrame implements ActionListener {
     private Road road;
     private Panel panel;
     private final int WINDOWWIDTH = 1400;
-    private final int WINDOWHEIGHT = 900;
+    private final int WINDOWHEIGHT = 700;
     private final int TOTAL_MAX_ROAD_LENGTH = 1200;
 
-    private final int CARHEIGHT = 50;
-    private final int CARWIDTH = 70;
+    public static final int CARHEIGHT = 70;
+    public static final int CARWIDTH = 70;
 
     private final int ROADHEIGHT = 60;
     private final int OUTLINTE_THICKNESS = 5;
@@ -105,6 +105,7 @@ public class Window extends JFrame implements ActionListener {
         quitMenuItem.addActionListener(this);
         programMenu.add(quitMenuItem);
 
+        this.setResizable(false);
         this.setVisible(true);
         this.pack();
         this.toFront();
@@ -214,7 +215,6 @@ public class Window extends JFrame implements ActionListener {
             }else{
                 g2.drawString("Use the program menu to create your first road", 50, 50);
             }
-            
 
             /* Draw order is important for layering, road has to be looped through multiple times to ensure corect layering.
                 First for outlines as they must be behind everything,
@@ -274,7 +274,7 @@ public class Window extends JFrame implements ActionListener {
                     }
                     laneIndex++;
                 }
-
+                
                 /* draw the lights */
                 if(currentRoad.canGo())
                     g2.setColor(Color.green);

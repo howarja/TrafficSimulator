@@ -1,3 +1,4 @@
+import java.awt.List;
 import java.util.ArrayList;
 
 /**
@@ -80,18 +81,25 @@ public class RoadTile {
             lastRoad = false;
         }
         
-        for (ArrayList<Car> lane : cars) {
+        for (int k = 0; k < cars.size(); k++){
+            ArrayList<Car> lane = cars.get(k);
             for (int i = 0; i < lane.size(); i++) {
                 boolean frontCar = true;
                 double breakPos = roadLength;
                 if (i >= 1) {
                     breakPos = lane.get(i - 1).getPosition();
                     frontCar = false;
+                    if(lane.get(i).getPosition()+Window.CARWIDTH>=breakPos){
+                        Road.carCrashes++;
+                        lane.remove(i);
+                        i--;
+                        continue;
+                    }
                 }
                 
                 boolean mustBrake = false;
                 double predictedPos = lane.get(i).predictPosition();
-                if(predictedPos+Car.carSpacingDist>=breakPos){
+                if(predictedPos+Car.carSpacingDist+Window.CARWIDTH>=breakPos){
                     mustBrake = true;
                     if(frontCar && canGo){
                         if(lastRoad||carsAtLight<maxCarsAtLight){
@@ -100,12 +108,14 @@ public class RoadTile {
                         }
                     }
                 }
+
+                /* detect car collisions */
                 lane.get(i).move(speedLimit, canGo, mustBrake);
 
                 if(nextRoad !=null)
                     maxCarsAtLight = nextRoad.getLanes();
 
-                if (lane.get(i).getPosition() >= roadLength) {
+                if (lane.get(i).getPosition()+Window.CARWIDTH >= roadLength) {
                     if (nextRoad != null)
                         nextRoad.addCar(lane.get(i));
                     if (!canGo){
