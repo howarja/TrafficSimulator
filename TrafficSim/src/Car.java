@@ -23,36 +23,13 @@ public class Car{
         @param canGo wether the stop lights are active
         @param roadLength the length of the full roadTile that this car is on
     */
-    public void move(double targetSpeed, double carAheadPosition, boolean canGo, double roadLength){
+    public void move(double targetSpeed, boolean canGo, boolean brake){ /* double carAheadPosition, , boolean canGo, double roadLength */
         /* Don't move if this car has collided with another */
         if(crashed)
             return;
-
-        /* Check wether this car has hit the car infront */
-        if(position>=carAheadPosition){
-            crashed = true;
-            Road.carCrashes++;
-        }
-
-        /* Determine wether the car ahead or stop lights should be stopped before */
-        double stoppingDist = carAheadPosition;
-        if(roadLength<carAheadPosition&&!canGo){
-            stoppingDist = roadLength;
-        }
-        
-        /* Calculate were the car will be if it brakes right now */
-        double predictedPos = this.position;
-        double predictedVel = this.vel;
-        while (predictedVel>0) {
-            predictedVel = Math.max(0, predictedVel - this.deccel); 
-            predictedPos+=predictedVel;
-        }
-
-        /* If the car will go further than the desired distance, start deccelerating.
-            Otherwise accelerate/deccelerate toward the speed limit */
-        if(predictedPos+carSpacingDist>=stoppingDist){
+       
+        if(brake){
             this.vel = Math.max(0, this.vel - this.deccel); 
-            System.out.println("decelerating " + vel);
         }
         else if(targetSpeed>vel){
             this.vel = Math.min(targetSpeed, this.vel + this.accel);
@@ -63,6 +40,17 @@ public class Car{
 
         /* Move the car forward */
         this.position+=vel;
+    }
+
+    public double predictPosition(){
+        /* Calculate were the car will be if it brakes right now */
+        double predictedPos = this.position;
+        double predictedVel = this.vel;
+        while (predictedVel>0) {
+            predictedVel = Math.max(0, predictedVel - this.deccel); 
+            predictedPos+=predictedVel;
+        }
+        return predictedPos;
     }
 
     /** 

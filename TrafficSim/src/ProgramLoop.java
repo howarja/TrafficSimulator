@@ -7,11 +7,14 @@ public class ProgramLoop {
     public static long time;
 
     private boolean running;
-    private static double carSpawnTime = 10;
+    private static double carSpawnTime = 2500;
     private double currentCarSpawnTime;
+    private static final int milliToSecond = 1000;
 
-    private double carUpdateTime = 0.3;
+    private double carUpdateTime = 30;
     private double currentUpdateTime;
+
+    private double lastMilliSecondTime = 0;
 
     public ProgramLoop(Window window) {
         /* Set up window, panel and frame loop */
@@ -43,23 +46,25 @@ public class ProgramLoop {
             elapsedTime = System.nanoTime() - previousTime;// time taken for the frame
             updateTime = (TARGET_NS_PER_FRAME - elapsedTime) / 1000000;// remaining time untill next frame(in
                                                                        // microseconds for Thread.sleep)
-            double totalTime = (double)(updateTime)/100;
+
+            double timerDiff = System.currentTimeMillis()-lastMilliSecondTime;
             // spawn cars
-            currentCarSpawnTime-=totalTime;
+            currentCarSpawnTime-=timerDiff;
             if(currentCarSpawnTime<=0){
                 window.addCar();
                 currentCarSpawnTime = carSpawnTime;
             }
 
             // update cars
-            currentUpdateTime-=totalTime;
+            currentUpdateTime-=timerDiff;
             if(currentUpdateTime<=0){
                 window.updateCars();
-                window.updateRoadLights(totalTime);
+                window.updateRoadLights(timerDiff);
                 currentUpdateTime = carUpdateTime;
             }
 
             /*-------------WAIT TIME----------- */
+            lastMilliSecondTime = System.currentTimeMillis();
             try {
                 Thread.sleep(Math.max(updateTime, 0));
             } catch (Exception e) {
@@ -69,6 +74,6 @@ public class ProgramLoop {
     }
 
     public static void setCarSpawnTime(double newSpawnTime){
-        carSpawnTime = newSpawnTime;
+        carSpawnTime = newSpawnTime*milliToSecond;
     }
 }

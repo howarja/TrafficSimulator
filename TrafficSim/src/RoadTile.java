@@ -14,8 +14,8 @@ public class RoadTile {
     private RoadTile nextRoad;
     private ArrayList<ArrayList<Car>> cars = new ArrayList<ArrayList<Car>>();
 
-    private final double stopDuration = 8;
-    private final double goDuration = 4;
+    private final double stopDuration = 800;
+    private final double goDuration = 400;
     private boolean canGo = false;
     private double currentDuration;
 
@@ -71,14 +71,42 @@ public class RoadTile {
          * if it reaches then move it to the next road
          * if there is no further road then remove it
          */
+
+        int carsAtLight = 0;
+        int maxCarsAtLight = -1;
+        boolean lastRoad = true;
+        if(nextRoad!=null){
+            maxCarsAtLight = nextRoad.getLanes();
+            lastRoad = false;
+        }
+        
+        System.out.println(canGo);
         for (ArrayList<Car> lane : cars) {
             for (int i = 0; i < lane.size(); i++) {
-                double nextCarPos = 10000;
+                boolean frontCar = true;
+                double breakPos = roadLength;
                 if (i >= 1) {
-                    nextCarPos = lane.get(i - 1).getPosition();
+                    breakPos = lane.get(i - 1).getPosition();
+                    frontCar = false;
                 }
+                
+                boolean mustBrake = false;
+                double predictedPos = lane.get(i).predictPosition();
+                if(predictedPos+Car.carSpacingDist>=breakPos){
+                    mustBrake = true;
+                    if(frontCar && canGo){
+                        if(lastRoad||carsAtLight<maxCarsAtLight){
+                            System.out.println("gooo");
+                            mustBrake = false;
+                            carsAtLight++;
+                        }
+                    }
+                }
+                lane.get(i).move(speedLimit, canGo, mustBrake);
 
-                lane.get(i).move(speedLimit, nextCarPos, canGo, roadLength);
+                if(nextRoad !=null) 
+                    maxCarsAtLight = nextRoad.getLanes();
+
                 if (lane.get(i).getPosition() >= roadLength) {
                     if (nextRoad != null)
                         nextRoad.addCar(lane.get(i));

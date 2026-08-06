@@ -10,7 +10,7 @@ import java.awt.*;
 import java.awt.event.*;// listener
 public class DialogueBox extends JDialog
 {
-    String answer;
+    private String answer;
 
     /* Create a small window with a text field the user to type in their input and a confirm button */
     public DialogueBox(String prompt){
@@ -19,7 +19,7 @@ public class DialogueBox extends JDialog
         
         int boxWidth = prompt.length()*10;
         this.setMinimumSize(new Dimension(boxWidth, 100));
-
+        
         JTextField input = new JTextField();
         JButton confirm = new JButton();
         confirm.setText("Confirm");
@@ -40,7 +40,7 @@ public class DialogueBox extends JDialog
     public void close(){
         this.dispose();
     }
-
+ 
     public String getResponse(){
         return answer;
     }

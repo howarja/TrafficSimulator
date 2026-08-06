@@ -40,6 +40,25 @@ public class Window extends JFrame implements ActionListener {
 
     private final Font font;
 
+    private final int CAR_FREQUENCY_MIN=1;
+    private final int CAR_FREQUENCY_MAX=5;
+
+    private final int CAR_SPACING_MIN = 20;
+    private final int CAR_SPACING_MAX = 75;
+
+    private final int ROAD_LENGTH_MIN=50;
+    private final int ROAD_LENTH_MAX=500;
+
+    private final int LANES_MIN=1;
+    private final int LANES_MAX=5;
+
+    private final int SPEED_LIMIT_MIN=5;
+    private final int SPEED_LIMIT_MAX=100;
+
+    public static final String timeUnit = "(seconds)";
+    public static final String speedUnit = "(m/s)";
+    public static final String lengthUnit = "(meters)";
+
     public Window(Road road) {
         System.out.println("Creating window");
         this.road = road;
@@ -101,26 +120,26 @@ public class Window extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         /* create a new road tile */
         if (e.getActionCommand().equals("new road")) {
-            int speedLimit = userInput.integerRequest(this, "Enter speed limit", 5, 100);
-            int lanes = userInput.integerRequest(this, "pick lanes", 1, 4);
-            int length = userInput.integerRequest(this, "pick length", 100, 500);
+            int speedLimit = userInput.integerRequest(this, "Enter speed limit", SPEED_LIMIT_MIN, SPEED_LIMIT_MAX);
+            int lanes = userInput.integerRequest(this, "pick lanes", LANES_MIN, LANES_MAX);
+            int length = userInput.integerRequest(this, "pick length", ROAD_LENGTH_MIN, ROAD_LENTH_MAX);
             road.extendRoad(speedLimit, lanes, length);
             panel.repaint();
         }
 
         /* set car spawn time */
         if (e.getActionCommand().equals("car frequency")) {
-            int period = userInput.integerRequest(this, "Enter new period between spawns", 10, 40);
+            int period = userInput.integerRequest(this, "Enter new period between spawns", CAR_FREQUENCY_MIN, CAR_FREQUENCY_MAX);
             ProgramLoop.setCarSpawnTime(period);
             panel.repaint();
         }
 
         /* set car spacing */
         if (e.getActionCommand().equals("car spacing")) {
-            int spacing = userInput.integerRequest(this, "Enter new spacing distance", 15, 70);
+            int spacing = userInput.integerRequest(this, "Enter new spacing distance", CAR_SPACING_MIN, CAR_SPACING_MAX);
             Car.setStoppingDistance(spacing);
             panel.repaint();
-        }       
+        }
         
         /* reset road program */
         if (e.getActionCommand().equals("reset road")) {
@@ -169,7 +188,7 @@ public class Window extends JFrame implements ActionListener {
             g2.setColor(Color.white);
             g2.drawString("Crashes: " + Road.carCrashes, 50, 50);
             g2.drawString("Red lights ran: " + Road.redLightsRan, 50, 90);
-
+            
             /* Loop through the road tiles, draw road and each car on it */
             g2.setColor(Color.GRAY);
             RoadTile currentRoad = road.getFirsTile();
