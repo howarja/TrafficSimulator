@@ -1,0 +1,9 @@
+#BlueJ class context
+comment0.target=ProgramLoop
+comment1.params=window
+comment1.target=ProgramLoop(Window)
+comment2.params=window
+comment2.target=void\ processLoop(Window)
+comment3.params=newSpawnTime
+comment3.target=void\ setCarSpawnTime(double)
+numComments=4

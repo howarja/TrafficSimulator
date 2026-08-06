@@ -1,5 +1,4 @@
-package src;
-
+ 
 /**
  * Create run the traffic simulation program
  *
@@ -7,7 +6,7 @@ package src;
  * @version 21/5/25
  */
 
-public class App {
+public class Main {
     public static void main(String[] args) throws Exception {
         Road road = new Road();
         Window window = new Window(road);

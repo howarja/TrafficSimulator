@@ -1,0 +1,18 @@
+#BlueJ class context
+comment0.target=Car
+comment1.params=
+comment1.target=Car()
+comment2.params=targetSpeed\ canGo\ brake
+comment2.target=void\ move(double,\ boolean,\ boolean)
+comment2.text=\ Increase/decrease\ velocity\ toward\ the\ target\ speed\r\n\ \ \ \ \ \ \ \ Decrease\ velocity\ to\ avoid\ crashing\ into\ the\ car\ ahead\r\n\ \ \ \ \ \ \ \ Move\ the\ car\ forward\ by\ its\ velocity\ \r\n\ \ \ \ \ \ \ \ \r\n\ \ \ \ \ \ \ \ @param\ targetSpeed\ the\ speed\ that\ the\ car\ is\ trying\ to\ reach,\ speed\ limit\ passed\ from\ roadTile\r\n\ \ \ \ \ \ \ \ @param\ carAheadPosition\ the\ position\ of\ the\ car\ infront\ of\ this\ one\r\n\ \ \ \ \ \ \ \ @param\ canGo\ wether\ the\ stop\ lights\ are\ active\r\n\ \ \ \ \ \ \ \ @param\ roadLength\ the\ length\ of\ the\ full\ roadTile\ that\ this\ car\ is\ on\r\n
+comment3.params=
+comment3.target=double\ predictPosition()
+comment4.params=
+comment4.target=void\ resetPosition()
+comment4.text=\ \r\n\ Reset\ the\ position\ of\ the\ road\ to\ zero,\ for\ when\ this\ car\ is\ moved\ to\ a\ new\ road\ segment\r\n
+comment5.params=newStoppingDistance
+comment5.target=void\ setStoppingDistance(double)
+comment5.text=\r\n\ @param\ newStoppingDistance\ The\ new\ distance\ that\ cars\ aim\ to\ space\ themselves\r\n\ Set\ the\ target\ stopping\ distance\ for\ cars\ between\ each\ other\ and\ stop\ lights\r\n
+comment6.params=
+comment6.target=double\ getPosition()
+numComments=7

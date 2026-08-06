@@ -1,0 +1,26 @@
+#BlueJ class context
+comment0.target=RoadTile
+comment0.text=\r\n\ Store\ the\ data\ for\ a\ single\ tile\ of\ the\ road\r\n\r\n\ @author\ James\ Howard\r\n\ @version\ 21/5/25\r\n
+comment1.params=speedLimit\ lanes\ length
+comment1.target=RoadTile(int,\ int,\ int)
+comment10.params=
+comment10.target=boolean\ canGo()
+comment11.params=
+comment11.target=java.util.ArrayList\ getCars()
+comment2.params=nextRoad
+comment2.target=void\ setNextRoad(RoadTile)
+comment3.params=
+comment3.target=int\ getSpeedLimit()
+comment4.params=
+comment4.target=int\ getLanes()
+comment5.params=
+comment5.target=int\ getLength()
+comment6.params=
+comment6.target=RoadTile\ getNextRoad()
+comment7.params=car
+comment7.target=void\ addCar(Car)
+comment8.params=
+comment8.target=void\ moveCars()
+comment9.params=totalTime
+comment9.target=void\ updateLights(double)
+numComments=12

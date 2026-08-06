@@ -1,0 +1,19 @@
+#BlueJ class context
+comment0.target=Road
+comment1.params=
+comment1.target=Road()
+comment2.params=
+comment2.target=void\ resetRoad()
+comment3.params=speedLimit\ lanes\ length
+comment3.target=void\ extendRoad(int,\ int,\ int)
+comment4.params=
+comment4.target=void\ printRoad()
+comment5.params=
+comment5.target=RoadTile\ getFirsTile()
+comment6.params=
+comment6.target=void\ addCar()
+comment7.params=
+comment7.target=void\ updateCars()
+comment8.params=totalTime
+comment8.target=void\ updateRoadTileLights(double)
+numComments=9

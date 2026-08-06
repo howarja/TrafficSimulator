@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.target=Window
+comment1.params=road
+comment1.target=Window(Road)
+comment2.params=e
+comment2.target=void\ actionPerformed(java.awt.event.ActionEvent)
+comment3.params=
+comment3.target=void\ addCar()
+comment4.params=
+comment4.target=void\ updateCars()
+comment5.params=totalTime
+comment5.target=void\ updateRoadLights(double)
+numComments=6

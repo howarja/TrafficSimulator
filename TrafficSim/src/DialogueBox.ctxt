@@ -1,0 +1,12 @@
+#BlueJ class context
+comment0.target=DialogueBox
+comment1.params=prompt
+comment1.target=DialogueBox(java.lang.String)
+comment1.text=Create\ a\ small\ window\ with\ a\ text\ field\ the\ user\ to\ type\ in\ their\ input\ and\ a\ confirm\ button
+comment2.params=e
+comment2.target=void\ actionPerformed(java.awt.event.ActionEvent)
+comment3.params=
+comment3.target=void\ close()
+comment4.params=
+comment4.target=java.lang.String\ getResponse()
+numComments=5

@@ -1,0 +1,19 @@
+#BlueJ class context
+comment0.target=Input
+comment0.text=\r\n\ Get\ reliable\ input\ from\ the\ user\ for\ \r\n\ multi\ choices,\ \r\n\ double\ within\ range,\r\n\ int\ within\ range,\r\n\ string\r\n\r\n\ @author\ James\ Howard\r\n\ @version\ 2/4/26\r\n
+comment1.params=window\ prompt
+comment1.target=java.lang.String\ createDialogBox(Window,\ java.lang.String)
+comment1.text=\r\n\ \ Creatte\ a\ dialogue\ box,\ asking\ for\ a\ user\ input,\ return\ the\ result\ \r\n
+comment2.params=window\ prompt
+comment2.target=java.lang.String\ stringRequest(Window,\ java.lang.String)
+comment2.text=\ \r\n\ \ \ \ Request\ a\ string\ from\ the\ user\r\n\ \ \ \ Repeat\ request\ if\ user\ provides\ invalid\ input\r\n
+comment3.params=window\ prompt\ min\ max
+comment3.target=double\ doubleRequest(Window,\ java.lang.String,\ double,\ double)
+comment3.text=\ \r\n\ \ \ \ Request\ a\ double\ from\ the\ user,\ repeat\ request\ if\ input\ is\ invalid\r\n\ \ \ \ Repeat\ request\ if\ user\ provides\ invalid\ input\r\n
+comment4.params=window\ prompt\ min\ max
+comment4.target=int\ integerRequest(Window,\ java.lang.String,\ int,\ int)
+comment4.text=\ \r\n\ \ \ \ Request\ a\ string\ from\ the\ user\r\n\ \ \ \ Repeat\ request\ if\ user\ provides\ invalid\ input\r\n
+comment5.params=window\ actions
+comment5.target=int\ optionRequest(Window,\ java.lang.String[])
+comment5.text=\ \r\n\ \ \ \ Request\ input\ from\ user\ of\ choice\ out\ of\ multiple\ actions\r\n\ \ \ \ Repeat\ request\ if\ user\ provides\ invalid\ input\r\n
+numComments=6
