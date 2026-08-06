@@ -34,12 +34,14 @@ public class Window extends JFrame implements ActionListener {
     private final int WINDOWHEIGHT = 900;
     private final int TOTAL_MAX_ROAD_LENGTH = 1200;
 
-    private final int CARHEIGHT = 10;
-    private final int CARWIDTH = 20;
+    private final int CARHEIGHT = 50;
+    private final int CARWIDTH = 70;
 
     private final int ROADHEIGHT = 60;
+    private final int OUTLINTE_THICKNESS = 5;
 
     private final Font font;
+    private Stroke dashedLines;
 
     private final int CAR_FREQUENCY_MIN=1;
     private final int CAR_FREQUENCY_MAX=5;
@@ -110,6 +112,9 @@ public class Window extends JFrame implements ActionListener {
         /* Setup larger font */
         font = new Font("serif", Font.BOLD, 40);
 
+        /* Setup dash stroke for lane lines */
+        dashedLines = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL,
+                                    0, new float[]{9}, 0);
         /* setup images */
         try {   
             carImage = ImageIO.read(new File(carPath));
@@ -134,7 +139,6 @@ public class Window extends JFrame implements ActionListener {
 
             int speedLimit = userInput.integerRequest(this, "Enter speed limit"+SPEED_UNIT, SPEED_LIMIT_MIN, SPEED_LIMIT_MAX);
             int lanes = userInput.integerRequest(this, "pick lanes", LANES_MIN, LANES_MAX);
-            
             
             int length = userInput.integerRequest(this, "pick length"+LENGTH_UNIT, ROAD_LENGTH_MIN, maxLength);
             road.extendRoad(speedLimit, lanes, length);
@@ -182,9 +186,10 @@ public class Window extends JFrame implements ActionListener {
     public class Panel extends JPanel {
         public Panel() {
             setPreferredSize(new Dimension(WIDTH, HEIGHT));
-            setBackground(Color.BLACK);
+            setBackground(Color.WHITE);
             this.setVisible(true);
             repaint();
+            
         }
 
         public void setBackgroundColor(Color color) {
@@ -199,51 +204,91 @@ public class Window extends JFrame implements ActionListener {
             
             /* Draw crashes */
             g2.setFont(font);
-            g2.setColor(Color.white);
+            g2.setStroke(dashedLines);
+            g2.setColor(Color.black);
+
+            RoadTile currentRoad = road.getFirsTile();
+            if(currentRoad!=null){
             g2.drawString("Crashes: " + Road.carCrashes, 50, 50);
             g2.drawString("Red lights ran: " + Road.redLightsRan, 50, 90);
+            }else{
+                g2.drawString("Use the program menu to create your first road", 50, 50);
+            }
             
-            /* Loop through the road tiles, draw road and each car on it */
-            g2.setColor(Color.GRAY);
-            RoadTile currentRoad = road.getFirsTile();
+
+            /* Draw order is important for layering, road has to be looped through multiple times to ensure corect layering.
+                First for outlines as they must be behind everything,
+                Next for the road and lane lines
+                Finally for the cars, traffic lights and speed limit text because they must be above everything */
+
+
             int totalLength = 0;
+            g2.setColor(Color.black);
             while (currentRoad != null) {
                 /* Draw the road */
-                g2.setColor(Color.gray);
                 int width = currentRoad.getLength();
                 int height = ROADHEIGHT*currentRoad.getLanes();
                 int y = WINDOWHEIGHT/2 - height/2;
+
+                g2.fillRect(totalLength-OUTLINTE_THICKNESS, y-OUTLINTE_THICKNESS,width+OUTLINTE_THICKNESS*2, /*ROADHEIGHT +*/ height+OUTLINTE_THICKNESS*2);
+
+                currentRoad = currentRoad.getNextRoad();
+                totalLength += width;
+            }
+
+            /* Draw the road and lane lines */
+            currentRoad = road.getFirsTile();
+            totalLength = 0;
+            while(currentRoad!=null){
+                /* Draw the road */
+                int width = currentRoad.getLength();
+                int height = ROADHEIGHT*currentRoad.getLanes();
+                int y = WINDOWHEIGHT/2 - height/2;
+
+                g2.setColor(Color.gray);
                 g2.fillRect(totalLength, y,width, /*ROADHEIGHT +*/ height);
-                
+
                 /* Draw the lines between the lanes */
-                for(int i = 0; i < currentRoad.getLanes()+1; i++){
+                g2.setColor(Color.white);
+                for(int i = 1; i < currentRoad.getLanes(); i++){
                     g2.drawLine(totalLength, y+i*ROADHEIGHT, totalLength+currentRoad.getLength(), y+i*ROADHEIGHT);
                 }
-                
-                /* Draw the speed limit */
-                g2.drawString(String.valueOf(currentRoad.getSpeedLimit()), totalLength+currentRoad.getLength()/2, y-30);
+
+                currentRoad = currentRoad.getNextRoad();
+                totalLength += width;
+            }
+
+            /* Draw the cars and UI overlays */
+            currentRoad = road.getFirsTile();
+            totalLength = 0;
+            while(currentRoad!=null){
+                ArrayList<ArrayList<Car>> cars = currentRoad.getCars();
+                int laneIndex = 0;
+                int height = ROADHEIGHT*currentRoad.getLanes();
+                int y = WINDOWHEIGHT/2 - height/2;
+                for (ArrayList<Car> lane : cars) {
+                    for (Car car : lane) {
+                        int xPos = (int) car.getPosition();
+                        int yPos = y+(laneIndex*ROADHEIGHT)-CARHEIGHT/2+ROADHEIGHT/2;
+                        g2.drawImage(carImage, xPos + totalLength, yPos, CARWIDTH, CARHEIGHT,null);
+                    }
+                    laneIndex++;
+                }
 
                 /* draw the lights */
                 if(currentRoad.canGo())
                     g2.setColor(Color.green);
                 else
                     g2.setColor(Color.red);
-                int circlSize = 35;
-                g2.fillOval(totalLength+width-circlSize/2, y-30-circlSize/2, circlSize, circlSize);
+                int circlSize = 45;
+                g2.fillOval(totalLength+currentRoad.getLength()-circlSize/2, y-circlSize*3, circlSize, circlSize);
 
-                /* draw the cars */
-                g2.setColor(Color.yellow);
-                ArrayList<ArrayList<Car>> cars = currentRoad.getCars();
-                int laneIndex = 0;
-                for (ArrayList<Car> lane : cars) {
-                    for (Car car : lane) {
-                        int pos = (int) car.getPosition();
-                        g2.drawImage(carImage, pos + totalLength, y+(laneIndex*ROADHEIGHT), CARWIDTH, CARHEIGHT,null);
-                    }
-                    laneIndex++;
-                }
+                /* Draw the speed limit */
+                g2.setColor(Color.black);
+                g2.drawString(String.valueOf(currentRoad.getSpeedLimit())+SPEED_UNIT, totalLength+currentRoad.getLength()/2, y-30);
+
+                totalLength += currentRoad.getLength();
                 currentRoad = currentRoad.getNextRoad();
-                totalLength += width;
             }
         }
     }
