@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=Input
-comment0.text=\r\n\ Get\ reliable\ input\ from\ the\ user\ for\ \r\n\ multi\ choices,\ \r\n\ double\ within\ range,\r\n\ int\ within\ range,\r\n\ string\r\n\r\n\ @author\ James\ Howard\r\n\ @version\ 2/4/26\r\n
+comment0.text=\r\n\ Get\ reliable\ input\ from\ the\ user\ for\ \r\n\ multi\ choices,\ \r\n\ double\ within\ range,\r\n\ int\ within\ range,\r\n\ string\r\n\r\n\ @author\ James\ Howard\r\n\ @version\ 7/8/25\r\n
 comment1.params=window\ prompt
 comment1.target=java.lang.String\ createDialogBox(Window,\ java.lang.String)
 comment1.text=\r\n\ \ Creatte\ a\ dialogue\ box,\ asking\ for\ a\ user\ input,\ return\ the\ result\ \r\n

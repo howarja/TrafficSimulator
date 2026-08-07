@@ -1,4 +1,9 @@
- 
+/**
+ * Call updates on the program on a timer and consitent intervals
+ *
+ * @author James Howard
+ * @version 7/8/25
+ */ 
 
 public class ProgramLoop {
 

@@ -1,5 +1,4 @@
  
-
 /**
  * Get reliable input from the user for 
  * multi choices, 
@@ -8,7 +7,7 @@
  * string
  *
  * @author James Howard
- * @version 2/4/26
+ * @version 7/8/25
  */
 
 public class Input

@@ -5,7 +5,7 @@
  * Create a GUI window for the program
  *
  * @author James Howard
- * @version 21/5/25
+ * @version 7/8/25
  */
 
 import javax.imageio.ImageIO;

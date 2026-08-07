@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=RoadTile
-comment0.text=\r\n\ Store\ the\ data\ for\ a\ single\ tile\ of\ the\ road\r\n\r\n\ @author\ James\ Howard\r\n\ @version\ 21/5/25\r\n
+comment0.text=\r\n\ Store\ the\ data\ for\ a\ single\ tile\ of\ the\ road\r\n\r\n\ @author\ James\ Howard\r\n\ @version\ 7/8/25\r\n
 comment1.params=speedLimit\ lanes\ length
 comment1.target=RoadTile(int,\ int,\ int)
 comment10.params=

@@ -1,5 +1,6 @@
 #BlueJ class context
 comment0.target=Road
+comment0.text=\r\n\ Store\ the\ for\ road\ objects,\r\n\ Store\ the\ number\ of\ carCrashes\ and\ red\ lights\ ran\r\n\r\n\ @author\ James\ Howard\r\n\ @version\ 7/8/25\r\n
 comment1.params=
 comment1.target=Road()
 comment2.params=

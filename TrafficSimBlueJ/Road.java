@@ -1,9 +1,14 @@
- 
+/**
+ * Store the for road objects,
+ * Store the number of carCrashes and red lights ran
+ *
+ * @author James Howard
+ * @version 7/8/25
+ */ 
 
 
 
 public class Road{
-
     private RoadTile firstTile;
     private RoadTile lastTile;
     

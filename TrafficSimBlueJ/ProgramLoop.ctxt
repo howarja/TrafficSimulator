@@ -1,5 +1,6 @@
 #BlueJ class context
 comment0.target=ProgramLoop
+comment0.text=\r\n\ Call\ updates\ on\ the\ program\ on\ a\ timer\ and\ consitent\ intervals\r\n\r\n\ @author\ James\ Howard\r\n\ @version\ 7/8/25\r\n
 comment1.params=window
 comment1.target=ProgramLoop(Window)
 comment2.params=window

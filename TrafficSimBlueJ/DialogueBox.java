@@ -1,10 +1,10 @@
  
 
 /**
- * Present a dialogue for user input
+ * Present a dialogue box for user input
  *
  * @James Howard
- * @18/3/25
+ * @7/8/25
  */
 
 import javax.swing.*;
@@ -14,7 +14,10 @@ public class DialogueBox extends JDialog
 {
     private String answer;
 
-    /* Create a small window with a text field the user to type in their input and a confirm button */
+    /** 
+     * Create a small window with a text field the user to type in their input
+     * and a confirm button 
+       */
     public DialogueBox(String prompt){
         super (new JFrame(prompt), prompt);
         this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);

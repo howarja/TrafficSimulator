@@ -1,4 +1,10 @@
- 
+/**
+ *  Store the data for a single car, 
+ *  handle movement(acceleration, deceleration and displacement) of the car
+ *
+ * @author James Howard
+ * @version 7/8/25
+ */ 
 
 public class Car{
 
@@ -37,9 +43,12 @@ public class Car{
         /* Move the car forward */
         this.position+=vel;
     }
-
+    
+    /**
+     * Calculate were the car will be if it brakes right now 
+    */
     public double predictPosition(){
-        /* Calculate were the car will be if it brakes right now */
+        
         double predictedPos = this.position;
         double predictedVel = this.vel;
         while (predictedVel>0) {
