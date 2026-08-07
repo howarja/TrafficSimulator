@@ -1,4 +1,3 @@
- 
 
 
 /**
@@ -117,7 +116,7 @@ public class Window extends JFrame implements ActionListener {
 
         /* Setup dash stroke for lane lines */
         dashedLines = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL,
-                                    0, new float[]{9}, 0);
+            0, new float[]{9}, 0);
         /* setup images */
         try {   
             carImage = ImageIO.read(new File(carPath));
@@ -142,7 +141,7 @@ public class Window extends JFrame implements ActionListener {
 
             int speedLimit = userInput.integerRequest(this, "Enter speed limit"+SPEED_UNIT, SPEED_LIMIT_MIN, SPEED_LIMIT_MAX);
             int lanes = userInput.integerRequest(this, "pick lanes", LANES_MIN, LANES_MAX);
-            
+
             int length = userInput.integerRequest(this, "pick length"+LENGTH_UNIT, ROAD_LENGTH_MIN, maxLength);
             road.extendRoad(speedLimit, lanes, length);
             panel.repaint();
@@ -161,7 +160,7 @@ public class Window extends JFrame implements ActionListener {
             Car.setStoppingDistance(spacing);
             panel.repaint();
         }
-        
+
         /* reset road program */
         if (e.getActionCommand().equals("reset road")) {
             road.resetRoad();
@@ -192,7 +191,7 @@ public class Window extends JFrame implements ActionListener {
             setBackground(Color.WHITE);
             this.setVisible(true);
             repaint();
-            
+
         }
 
         public void setBackgroundColor(Color color) {
@@ -204,7 +203,7 @@ public class Window extends JFrame implements ActionListener {
             /* Draw the graphics onto the screen */
             super.paintComponent(g);
             Graphics2D g2 = (Graphics2D) g;
-            
+
             /* Draw crashes */
             g2.setFont(font);
             g2.setStroke(dashedLines);
@@ -212,17 +211,18 @@ public class Window extends JFrame implements ActionListener {
 
             RoadTile currentRoad = road.getFirsTile();
             if(currentRoad!=null){
-            g2.drawString("Crashes: " + Road.carCrashes, 50, 50);
-            g2.drawString("Red lights ran: " + Road.redLightsRan, 50, 90);
+                g2.drawString("Crashes: " + Road.carCrashes, 50, 50);
+                g2.drawString("Red lights ran: " + Road.redLightsRan, 50, 90);
             }else{
                 g2.drawString("Use the program menu to create your first road", 50, 50);
+                g2.drawString("Note that the simulation is not representative of reality", 50, 90);
+                g2.drawString("not all depicted driving is safe ", 50, 130);
             }
 
             /* Draw order is important for layering, road has to be looped through multiple times to ensure corect layering.
-                First for outlines as they must be behind everything,
-                Next for the road and lane lines
-                Finally for the cars, traffic lights and speed limit text because they must be above everything */
-
+            First for outlines as they must be behind everything,
+            Next for the road and lane lines
+            Finally for the cars, traffic lights and speed limit text because they must be above everything */
 
             int totalLength = 0;
             g2.setColor(Color.black);
@@ -276,7 +276,7 @@ public class Window extends JFrame implements ActionListener {
                     }
                     laneIndex++;
                 }
-                
+
                 /* draw the lights */
                 if(currentRoad.canGo())
                     g2.setColor(Color.green);
